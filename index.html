@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
+        <script src="https://code.jquery.com/jquery-3.4.0.min.js" type="text/javascript"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios@0.21.1/dist/axios.min.js"></script>
+        <title>vue-boolflix</title>
+        <link rel="stylesheet" href="css/main.css">
+        <script src="js/main.js" charset="utf-8"></script>
+    </head>
+    <body>
+    <div id="app" class="container">
+                <div class="navbar">
+                    <div class="logo">
+                        <img src="img/netflix.png" alt="img/netflix.png">
+                    </div>
+                    <div class="ricerca">
+                        <input type="text" name="" value="" placeholder="Film/Serie-Tv" v-model="searched" @keyup.enter="getApi">
+                        <i class="fas fa-search" @click="getApi"></i>
+                    </div>
+                </div>
+                <main>
+                    <h1>Film</h1>
+                    <ul class="row">
+                        <li class="copertina" v-for="(movie, ind) in movies">
+                            <div class="facciata" v-html="poster(movie.poster_path)"></div>
+                            <ul class="info">
+                                <li>
+                                    <span class="title">Titolo:</span>
+                                    <span>{{' ' + movie.title}}</span>
+                                </li>
+                                <li>
+                                    <span class="title">Titolo originale:</span>
+                                    <span>{{' ' + movie.original_title}}</span>
+
+                                </li>
+                                <li class="vote" >
+                                    <span class="title">Voto:</span>
+                                    <i v-for ="(star, starIndex) in 5" :class=" convertVote(movie.vote_average) > starIndex ? 'fas fa-star' : 'far fa-star'"></i>
+                                </li>
+                                <li class="language title" v-html="showFlag(movie.original_language)"></li>
+                                <li>
+                                    <span class="title">Overview:</span>
+                                    <span>{{slicer(movie.overview)}}</span>
+                                </li>
+                                <li>
+                                    <span class="title">Actors:</span>
+                                    <span v-for="actor in getActors(ind)"> {{actor}} </span>
+                                </li>
+                            </ul>
+
+
+                        </li>
+                    </ul>
+                    <h1>SerieTV</h1>
+                    <ul class="row">
+                        <li class="copertina" v-for="(movie, ind) in tvSeries">
+                            <div class="facciata" v-html="poster(movie.poster_path)"></div>
+                            <ul class="info">
+                                <li>
+                                    <span class="title">Titolo:</span>
+                                    <span>{{' ' + movie.name}}</span>
+                                </li>
+                                <li>
+                                    <span class="title">Titolo originale:</span>
+                                    <span>{{' ' + movie.original_name}}</span>
+
+                                </li>
+                                <li class="vote" >
+                                    <span class="title">Voto:</span>
+                                    <i v-for ="(star, starIndex) in 5" :class=" convertVote(movie.vote_average) > starIndex ? 'fas fa-star' : 'far fa-star'"></i>
+                                </li>
+                                <li class="language title" v-html="showFlag(movie.original_language)"></li>
+                                <li>
+                                    <span class="title">Overview:</span>
+                                    <span>{{slicer(movie.overview)}}</span>
+                                </li>
+                                <li>
+                                    <span class="title">Actors:</span>
+                                    <span v-for="actor in getTVActors(ind)"> {{actor}} </span>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </main>
+        </div>
+    </body>
+</html>
